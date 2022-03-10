@@ -1,0 +1,5 @@
+/.idea
+/aa1 copy.jpg
+/b1.jpg
+/bb1 copy.jpg
+/cc1 copy.jpg
