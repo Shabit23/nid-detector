@@ -71,11 +71,10 @@ def record(name, nid_number):
     with open('Detected_Record.csv', 'r+') as file:
         my_data_list = file.readlines()
         name_list = []
-        nid_list = []
+        
         for line in my_data_list:
             entry = line.split(',')
             name_list.append(entry[0])
-            nid_list.append(entry[0])
 
         if name not in name_list:
             now = datetime.now()
