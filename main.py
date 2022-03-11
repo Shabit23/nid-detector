@@ -140,7 +140,7 @@ print(newImgPath)
 for x, item in enumerate(old_path):
     prev_name = old_path[x]
     newName = newImgPath[x]
-    if not os.path.isfile(new_name):
+    if not os.path.isfile(newName):
         os.rename(prev_name, newName)
 
 newImageList = os.listdir(path)
