@@ -160,8 +160,8 @@ capture = cv2.VideoCapture(0)
 
 while True:
     success, img = capture.read()
-    # imgSmall = cv2.resize(img, (0, 0), None, 2.20, 2.20)
-    imgSmall = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+    imgSmall = cv2.resize(img, (0, 0), None, 0.25, 0.25)
+    imgSmall = cv2.cvtColor(imgSmall, cv2.COLOR_BGR2RGB)
     facesInCurrFrame = face_recognition.face_locations(imgSmall)
     encodesInCurrFrame = face_recognition.face_encodings(imgSmall, facesInCurrFrame)
 
@@ -178,7 +178,7 @@ while True:
             # print(name)
             # print(nid)
             y1, x2, y2, x1 = faceLoc
-            # y1, x2, y2, x1 = y1 / 2, x2 / 2, y2 / 2, x1 / 2
+            y1, x2, y2, x1 = y1 * 4, x2 * 4, y2 * 4, x1 * 4
             cv2.rectangle(img, (x1, y1), (x2, y2), (255, 0, 0), 2)                    # Creating a rectangle using the location of the face
             cv2.rectangle(img, (x1, y2 - 35), (x2, y2), (255, 0, 0), cv2.FILLED)
             cv2.putText(img, name, (x1 + 10, y2 - 10), cv2.FONT_HERSHEY_PLAIN, 1, (255, 255, 255), 2)
