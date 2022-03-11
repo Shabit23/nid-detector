@@ -33,30 +33,30 @@ def text_recognition(imgPath, imageList):
     roi = [[(380, 282), (970, 353), 'Name'], [(438, 538), (973, 602), 'Nid No.']]
     myData = []
 
-    # for s in imageList:
-    #     if s[0] != '$':
-    for j, y in enumerate(imgPath):
-        imgScan = cv2.imread(y)
-        imgShow = imgScan.copy()
-        imgMask = np.zeros_like(imgShow)
-        tempData = []
+    for s in imageList:
+        if s[0] != '$':
+            for j, y in enumerate(imgPath):
+                imgScan = cv2.imread(y)
+                imgShow = imgScan.copy()
+                imgMask = np.zeros_like(imgShow)
+                tempData = []
 
-        print(f'################ Extracting Data from Card {j + 1} ################')
-        # cv2.imshow("output", imgMask)
-        for x, r in enumerate(roi):
-            cv2.rectangle(imgMask, (r[0][0], r[0][1]), (r[1][0], r[1][1]), (0, 255, 0), cv2.FILLED)
-            imgShow = cv2.addWeighted(imgShow, 0.99, imgMask, 0.1, 0)
+                print(f'################ Extracting Data from Card {j + 1} ################')
+                # cv2.imshow("output", imgMask)
+                for x, r in enumerate(roi):
+                    cv2.rectangle(imgMask, (r[0][0], r[0][1]), (r[1][0], r[1][1]), (0, 255, 0), cv2.FILLED)
+                    imgShow = cv2.addWeighted(imgShow, 0.99, imgMask, 0.1, 0)
 
-            imgCrop = imgScan[r[0][1]:r[1][1], r[0][0]:r[1][0]]
-            # cv2.imshow(str(x), imgCrop)
+                    imgCrop = imgScan[r[0][1]:r[1][1], r[0][0]:r[1][0]]
+                    # cv2.imshow(str(x), imgCrop)
 
-            reader = easyocr.Reader(['en'])
-            print(f'{r[2]}: {reader.readtext(imgCrop)[0][1]}')
-            tempData.append(reader.readtext(imgCrop)[0][1])
+                    reader = easyocr.Reader(['en'])
+                    print(f'{r[2]}: {reader.readtext(imgCrop)[0][1]}')
+                    tempData.append(reader.readtext(imgCrop)[0][1])
 
-        myData.append(tempData)
-    return myData
-
+                myData.append(tempData)
+            return myData
+        return []
 
 def record(name, nid_number):
     with open('Detected_Record.csv', 'r+') as file:
@@ -85,16 +85,8 @@ with open('Record.csv', 'a+') as file:
 print(textKnown)
 
 newImgPath = []
-old_path = []
-old_name = []
 
-newImageList = os.listdir(path)
-for cl in newImageList:
-    currentImage = cv2.imread(f'{path}/{cl}')
-    images.append(currentImage)
-    classNames.append(os.path.splitext(cl)[0])
-
-for s in classNames:
+for s in imageList:
     if s[0] != '$':
         for horizontal in textKnown:
             new_name = './' + path + '/$ '
@@ -106,7 +98,17 @@ for s in classNames:
             newImgPath.append(new_name)
 
 
-for x in classNames:
+old_path = []
+old_name = []
+newImageList = os.listdir(path)
+
+for cl in newImageList:
+    currentImage = cv2.imread(f'{path}/{cl}')
+    images.append(currentImage)
+    classNames.append(os.path.splitext(cl)[0])
+
+
+for s in imageList:
     if s[0] != '$':
         old_name.append(s)
 
